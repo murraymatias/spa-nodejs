@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="js/scripts.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <img src="./img/logo.png" alt="logo">
+        <nav>
+            <a href="#">Nosotros</a>
+            <a href="#">Anuncios</a>
+            <a href="#">Blog</a>
+            <a href="#">Contacto</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Administracion</h1>
+        <img src="./img/banner.jpg" alt="banner" id="banner">
+        <form action="#">
+            <fieldset>
+                <legend>
+                    Informacion del anuncio
+                </legend>
+                <label for="txtTitulo">Titulo</label>
+                <input class="fullWidth" type="text" name="txtTitulo" id="txtTitulo" placeholder="Titulo">
+                <label for="selTransaccion">Transaccion</label>
+                <select class="fullWidth" name="selTransaccion" id="selTransaccion">
+                    <option value="venta">Venta</option>
+                    <option value="alquiler">Alquiler</option>
+                    <option value="permuta">Permuta</option>
+                </select>
+                <label for="txtDescipcion">Descripcion</label>
+                <input class="fullWidth" type="text" name="txtDescipcion" id="txtDescipcion" placeholder="Descripcion">
+                <label for="txtPrecio">Precio</label>
+                <input class="fullWidth" type="text" name="txtPrecio" id="txtPrecio" placeholder="Precio">
+                <div class="especificaciones">
+                    <img src="./img/puerta.svg" alt="puerta">
+                    <input type="text" name="txtPuertas" id="txtPuertas" placeholder="Puertas">
+                    <img src="./img/kms.svg" alt="kms">
+                    <input type="text" name="txtKms" id="txtKms" placeholder="Kms">
+                    <img src="./img/potencia.svg" alt="potencia">
+                    <input type="text" name="txtPotencia" id="txtPotencia" placeholder="Potencia">
+                </div>
+            </fieldset>
+            
+            <button class="btn"><i class="fa fa-save"></i> Guardar</button>
+        </form>
+
+        <table>
+            <thead>
+                <th>Id</th>
+                <th>titulo</th>
+                <th>transaccion</th>
+                <th>descripcion</th>
+                <th>precio</th>
+                <th>num_puertas</th>
+                <th>num_KMs</th>
+                <th>potencia</th>
+            </thead>
+        </table>
+    </main>
+    <footer>
+        <nav>
+            <a href="#">Nosotros</a>
+            <a href="#">Anuncios</a>
+            <a href="#">Blog</a>
+            <a href="#">Contacto</a>
+        </nav>
+        <p>
+            Todos los derechos reservados 2020 &copy;
+        </p>
+    </footer>
+</body>
+</html>
