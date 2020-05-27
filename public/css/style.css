@@ -27,8 +27,9 @@ nav a{
     color: white;
     text-transform: uppercase;
     text-decoration: none;
-    padding: 1rem;
+    padding: .5rem;
 }
+
 
 input, select{
     background-color: lightgrey;
@@ -43,6 +44,10 @@ form{
     display: inline-block;
 }
 
+table{
+    margin: 1rem 0;
+}
+
 table, th ,td {
     border: 1px solid black;
     border-collapse: collapse;
@@ -54,6 +59,10 @@ table, th ,td {
     margin: .25rem 0 1rem;
 }
 
+.copy{
+    color: white;
+    margin: 1rem;
+}
 .especificaciones{
     display: inline-flex;
     margin-top: 5px;

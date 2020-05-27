@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="js/scripts.js" defer></script>
+    <script type="module" src="js/scripts.js" defer></script>
     <title>Document</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
     <main>
         <h1>Administracion</h1>
         <img src="./img/banner.jpg" alt="banner" id="banner">
-        <form action="#">
+        <form id="formulario" action="#">
             <fieldset>
                 <legend>
                     Informacion del anuncio
@@ -48,7 +48,7 @@
                 </div>
             </fieldset>
             
-            <button class="btn"><i class="fa fa-save"></i> Guardar</button>
+            <button id="btnGuardar" class="btn"><i class="fa fa-save"></i> Guardar</button>
         </form>
 
         <table>
@@ -71,7 +71,7 @@
             <a href="#">Blog</a>
             <a href="#">Contacto</a>
         </nav>
-        <p>
+        <p class="copy">
             Todos los derechos reservados 2020 &copy;
         </p>
     </footer>
