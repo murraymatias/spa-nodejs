@@ -48,11 +48,15 @@ table{
     margin: 1rem 0;
 }
 
+th{
+    background-color: tomato;
+}
+
 table, th ,td {
     border: 1px solid black;
     border-collapse: collapse;
     padding: 1rem;
-  }
+}
 
 .fullWidth{
     width: 100%;
