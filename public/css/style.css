@@ -1,97 +1,10 @@
-*{
-    box-sizing: border-box;
-}
-
-body {
-    font-family: sans-serif;
-}
-
-h1{
-    text-align: center;
-    font-weight: normal;
-    font-size: 20px;
-}
-
-header ,footer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgb(49, 132, 160);
-}
-
-header img{
-    width: 200px;
-}
-
-nav a{
+#logo
+{
     color: white;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: .5rem;
+    width: 100px;
 }
 
-
-input, select{
-    background-color: lightgrey;
-    border: none;
-    font-size: 14px;
-    padding: 7px;
-    border-radius: 5px;
+.icon-mw
+{
+    max-width: 60px;
 }
-
-form{
-    max-width: 600px;
-    display: inline-block;
-}
-
-table{
-    margin: 1rem 0;
-}
-
-th{
-    background-color: tomato;
-}
-
-table, th ,td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    padding: 1rem;
-}
-
-.fullWidth{
-    width: 100%;
-    margin: .25rem 0 1rem;
-}
-
-.copy{
-    color: white;
-    margin: 1rem;
-}
-.especificaciones{
-    display: inline-flex;
-    margin-top: 5px;
-}
-
-.especificaciones img{
-    width: 30px;
-    height: 30px;
-    margin:  .5rem;
-}
-
-#banner{
-    width: 100%;
-}
-
-.btn{
-    margin: 10px 0;
-    background-color: green;
-    border: none;
-    color: white;
-    padding: 12px 16px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background-color: RoyalBlue;
-  }
