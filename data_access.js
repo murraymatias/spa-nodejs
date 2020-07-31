@@ -39,7 +39,7 @@
                 array.forEach(element => {
                     delete element.active;
                 });
-                setTimeout(function () { cb(response, "Carga Exitosa", array) }, 5000);
+                setTimeout(function () { cb(response, "Carga Exitosa", array) }, 0);
             });
 
             //return array;
