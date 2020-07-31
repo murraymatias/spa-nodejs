@@ -27,6 +27,7 @@ function guardarAnuncio() {
 }
 
 function enviarAnuncio(anuncioAuto) {
+
   let xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState == 4 && xhr.status == 200) 
@@ -35,18 +36,20 @@ function enviarAnuncio(anuncioAuto) {
       document.getElementById("formulario").reset();
     }
   };
+
   xhr.open("POST", "alta", true);
   xhr.setRequestHeader("Content-Type", "Application/JSON");
   xhr.send(JSON.stringify(anuncioAuto));
 }
 
 function generarTabla() {
-    console.log(listaAnuncios)
+
     let tabla = document.getElementById("tablaAnuncios");
 
-    for (anuncioAuto of listaAnuncios) {
+    for (const anuncioAuto of listaAnuncios) {
+
       let fila = document.createElement("tr");
-      for (dato in anuncioAuto) {
+      for (const dato in anuncioAuto) {
         let celda = document.createElement("td");
         //celda.addEventListener('click', cargarFormulario);      
         let texto = document.createTextNode(anuncioAuto[dato]);
@@ -59,11 +62,16 @@ function generarTabla() {
 }
 
 function traerAnuncios() {
+
     let xhr = new XMLHttpRequest();
+
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200) {
-         listaAnuncios = JSON.parse(xhr.responseText);     
+        console.log(JSON.parse(xhr.responseText)["data"]);
 
+         listaAnuncios = JSON.parse(xhr.responseText)["data"];
+
+         generarTabla();
       }
     };
     xhr.open("GET", "traer", true);
