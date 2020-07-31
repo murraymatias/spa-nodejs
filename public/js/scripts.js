@@ -127,6 +127,9 @@ function generarTabla(list) {
     tabla.appendChild(head);
   }
   calcularPromedio(lista);
+  calcularPromedioPotencia(lista);
+  calcularMaximo(lista);
+  calcularMinimo(lista);
 }
 
 function calcularPromedio(lista)
@@ -142,6 +145,39 @@ function calcularPromedio(lista)
   },0);
 
   document.getElementById('txtPromedio').value = promedio;
+}
+
+function calcularPromedioPotencia(lista)
+{
+  let promedio = lista.reduce((total, anuncio, index, array) => {
+    total += parseInt(anuncio.potencia);
+
+    if( index === array.length-1) { 
+      return total/array.length;
+    }else { 
+      return total;
+    }
+  },0);
+
+  document.getElementById('txtPromedioPotencia').value = promedio;
+}
+
+function calcularMaximo(lista){
+
+  let precioMaximo = listaAnuncios.reduce((acc,obj)=>{
+    if(obj.precio>acc){acc=obj.precio;}return acc;
+  },0);
+
+  document.getElementById('txtPrecioMaximo').value = precioMaximo;
+}
+
+function calcularMinimo(lista){
+
+  let precioMinimo = listaAnuncios.reduce((acc,obj)=>{
+    if(obj.precio<acc){acc=obj.precio;}return acc;
+  },0);
+
+  document.getElementById('txtPrecioMin').value = precioMinimo;
 }
 
 function cargarFormulario()
