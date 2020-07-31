@@ -289,7 +289,10 @@ function deleteAnuncio()
   $('body').toggleClass('loading');
   setTimeout(()=>{$('body').toggleClass('loading');},2000);
   
-  listaAnuncios.pop(anuncioSeleccionado);
+  let index = listaAnuncios.indexOf(anuncioSeleccionado);
+  if (index > -1) {
+    listaAnuncios.splice(index, 1);
+  }
 
   localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
 }
