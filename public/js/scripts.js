@@ -3,6 +3,11 @@ import Anuncio_Auto from "./clases.js";
 let listaAnuncios;
 let anuncioSeleccionado = '';
 
+if(localStorage.getItem('anuncios')==null)
+{
+  localStorage.setItem('anuncios',JSON.stringify(new Array()));
+}
+
 $('#btnLimpiar').hide();
 $('#btnBorrar').hide();
 
