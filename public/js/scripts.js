@@ -163,7 +163,7 @@ function calcularPromedio(lista)
     }
   },0);
 
-  $('#txtPromedio').val() = promedio;
+  $('#txtPromedio').val(promedio);
 }
 
 function calcularPromedioPotencia(lista)
@@ -177,21 +177,21 @@ function calcularPromedioPotencia(lista)
       return total;
     }
   },0);
-  $('#txtPromedioPotencia').val() = promedio;
+  $('#txtPromedioPotencia').val(promedio);
 }
 
 function calcularMaximo(lista){
   let precioMaximo = listaAnuncios.reduce((acc,obj)=>{
     if(obj.precio>acc){acc=obj.precio;}return acc;
   },0);
-  $('#txtPrecioMaximo').val() = precioMaximo;
+  $('#txtPrecioMaximo').val(precioMaximo);
 }
 
 function calcularMinimo(lista){
   let precioMinimo = listaAnuncios.reduce((acc,obj)=>{
     if(obj.precio<acc){acc=obj.precio;}return acc;
   },0);
-  $('#txtPrecioMin').val() = precioMinimo;
+  $('#txtPrecioMin').val(precioMinimo);
 }
 //#endregion
 
@@ -200,13 +200,13 @@ function cargarFormulario()
   let anuncio = listaAnuncios.find(elemento => elemento.id == this.parentElement.firstChild.innerText);
   anuncioSeleccionado=anuncio;
 
-  $("#txtTitulo").val() = anuncio.titulo;
-  $("#selTransaccion").val() = anuncio.transaccion;
-  $("#txtDescipcion").val() = anuncio.descripcion;
-  $("#txtPrecio").val() = anuncio.precio;
-  $("#txtPuertas").val() = anuncio.puertas;
-  $("#txtKms").val() = anuncio.kms;
-  $("#txtPotencia").val() = anuncio.potencia;
+  $("#txtTitulo").val(anuncio.titulo);
+  $("#selTransaccion").val(anuncio.transaccion);
+  $("#txtDescipcion").val(anuncio.descripcion);
+  $("#txtPrecio").val(anuncio.precio);
+  $("#txtPuertas").val(anuncio.puertas);
+  $("#txtKms").val(anuncio.kms);
+  $("#txtPotencia").val(anuncio.potencia);
 
   $('#btnLimpiar').show();
   $('#btnBorrar').show();
@@ -244,8 +244,6 @@ function filtroMap(lista){
     return anuncioMapeado;
   });
 }
-
-
 
 //GET Anuncios
 function traerAnuncios(){
