@@ -4,12 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="./../node_modules/@fortawesome/fontawesome-free/css/all.css" />
 
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
   <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">  
   <link rel="stylesheet" href="./css/style.css" />
-
   <script src="./../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="./../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
   <script src="./../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -110,12 +109,12 @@
             </div>
           </fieldset>
           <button id="btnGuardar" class="btn btn-success mt-5 mx-2">
-            <i class="fa fa-save"></i> Guardar</button>
+            <i class="far fa-save"></i> Guardar</button>
 
           <button id="btnBorrar" class="btn btn-danger mt-5 mx-2">
-            <i class="fa fa-save"></i> Borrar</button>
+            <i class="fas fa-times"></i> Borrar</button>
           <button id="btnLimpiar" class="btn btn-primary mt-5 mx-2">
-            <i class="fa fa-save"></i> Limpiar
+            <i class="fas fa-broom"></i> Limpiar
           </button>
         </form>
       </div>
@@ -232,16 +231,7 @@
       </div>
       <div class="row">
         <table id="tablaAnuncios" class="table table-hover">
-          <thead class="thead-dark">
-            <th>Id</th>
-            <th>titulo</th>
-            <th>transaccion</th>
-            <th>descripcion</th>
-            <th>precio</th>
-            <th>num_puertas</th>
-            <th>num_KMs</th>
-            <th>potencia</th>
-          </thead>
+          <thead class="thead-dark"></thead>
         </table>
       </div>
     </main>
