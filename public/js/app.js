@@ -1,9 +1,6 @@
-"use strict";
-var Etransaccion;
-(function (Etransaccion) {
-    Etransaccion[Etransaccion["na"] = 0] = "na";
-    Etransaccion[Etransaccion["venta"] = 1] = "venta";
-    Etransaccion[Etransaccion["alquiler"] = 2] = "alquiler";
-    Etransaccion[Etransaccion["permuta"] = 3] = "permuta";
-})(Etransaccion || (Etransaccion = {}));
+let listaAnuncios = Array();
+let anuncioSeleccionado;
+if (localStorage.getItem('anuncios') == null) {
+    localStorage.setItem('anucios', JSON.stringify(new Array()));
+}
 //# sourceMappingURL=app.js.map

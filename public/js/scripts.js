@@ -1,98 +1,114 @@
-import Anuncio_Auto from "./clases.js";
+import Anuncio_Auto from "./classes.js";
 
+//#region Elementos
 let listaAnuncios;
 let anuncioSeleccionado = '';
+let formControls = [$('#txtTitulo'),$('#selTransaccion'),$('#txtDescipcion'),$('#txtPrecio'),$('#txtPuertas'),$('#txtKms'),$('#txtPotencia')];
+let checkBoxes = [$('#selFiltroTransaccion'),$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion'),$('#checkDescripccion'),$('#checkPrecio'),$('#checkPuertas'),$('#checkKms'),$('#checkPotencia')];
+//#endregion
 
-if(localStorage.getItem('anuncios')==null)
-{
+
+
+//#region LocalStorage Init
+if(localStorage.getItem('anuncios')==null){
   localStorage.setItem('anuncios',JSON.stringify(new Array()));
 }
 
-$('#btnLimpiar').hide();
-$('#btnBorrar').hide();
 
-window.addEventListener("load", function () {
-  traerAnuncios();
-});
+//#endregion
 
-document.getElementById("btnGuardar").addEventListener("click", function (e) {
+
+
+//#region Events handlers initialization
+
+$(document).ready(traerAnuncios);
+
+
+//Save button handler
+$("#btnGuardar").click(function (e) {
   e.preventDefault();
   guardarAnuncio();
   actualizarTabla();
 });
 
-document.getElementById("btnLimpiar").addEventListener("click", function (e) {
+//Clean button handeler
+$("#btnLimpiar").click(function (e) {
   e.preventDefault();
-  document.getElementById("txtTitulo").value = '';
-  document.getElementById("selTransaccion").value = '';
-  document.getElementById("txtDescipcion").value = '';
-  document.getElementById("txtPrecio").value = '';
-  document.getElementById("txtPuertas").value = '';
-  document.getElementById("txtKms").value = '';
-  document.getElementById("txtPotencia").value = '';
+  for (const control of formControls){
+    control.val('');
+  }
 
   anuncioSeleccionado = '';
+  actualizarTabla();
 
   $('#btnLimpiar').hide();
   $('#btnBorrar').hide();
 });
 
-document.getElementById("btnBorrar").addEventListener("click", function (e) {
+//Delete button handler
+$("#btnBorrar").click(function (e) {
   e.preventDefault();
-  document.getElementById("txtTitulo").value = '';
-  document.getElementById("selTransaccion").value = '';
-  document.getElementById("txtDescipcion").value = '';
-  document.getElementById("txtPrecio").value = '';
-  document.getElementById("txtPuertas").value = '';
-  document.getElementById("txtKms").value = '';
-  document.getElementById("txtPotencia").value = '';
+  for (const control of formControls){
+    control.val('');
+  }
 
   deleteAnuncio();
+  actualizarTabla();
 
   $('#btnLimpiar').hide();
   $('#btnBorrar').hide();
 });
 
-document.getElementById("selFiltroTransaccion").addEventListener("change", actualizarTabla);
-document.getElementById('checkTitulo').addEventListener("change", actualizarTabla);
-document.getElementById('checkTransaccion').addEventListener("change", actualizarTabla);
-document.getElementById('checkDescripccion').addEventListener("change", actualizarTabla);
-document.getElementById('checkDescripccion').addEventListener("change", actualizarTabla);
-document.getElementById('checkPrecio').addEventListener("change", actualizarTabla);
-document.getElementById('checkPuertas').addEventListener("change", actualizarTabla);
-document.getElementById('checkKms').addEventListener("change", actualizarTabla);
-document.getElementById('checkPotencia').addEventListener("change", actualizarTabla);
+for (const box of checkBoxes){
+  box.change(actualizarTabla);
+}
+//#endregion
+
+
+$('#btnLimpiar').hide();
+$('#btnBorrar').hide();
 
 function guardarAnuncio() {
   let anuncioAuto = new Anuncio_Auto(
-    document.getElementById("txtTitulo").value,
-    document.getElementById("selTransaccion").value,
-    document.getElementById("txtDescipcion").value,
-    document.getElementById("txtPrecio").value,
-    document.getElementById("txtPuertas").value,
-    document.getElementById("txtKms").value,
-    document.getElementById("txtPotencia").value
+    $("#txtTitulo").val(),
+    $("#selTransaccion").val(),
+    $("#txtDescipcion").val(),
+    $("#txtPrecio").val(),
+    $("#txtPuertas").val(),
+    $("#txtKms").val(),
+    $("#txtPotencia").val()
   );
-  document.getElementById("txtTitulo").value='';
-  document.getElementById("selTransaccion").value='';
-  document.getElementById("txtDescipcion").value='';
-  document.getElementById("txtPrecio").value='';
-  document.getElementById("txtPuertas").value='';
-  document.getElementById("txtKms").value='';
-  document.getElementById("txtPotencia").value='';
 
-  if(anuncioSeleccionado == '')
-  {
+  for (const control of formControls){
+    control.val('');
+  }
+
+  if(anuncioSeleccionado == ''){
     enviarAnuncio(anuncioAuto);
   }
-  else
-  {
+  else{
     updateAnuncio(anuncioAuto);
+  }
+}
+
+
+//#region Table operations
+function actualizarTabla()
+{
+  if ($("#selFiltroTransaccion").val() == "na") {
+    generarTabla(listaAnuncios);
+  } else {
+    let listaFiltrada = listaAnuncios.filter((anuncio) => anuncio.transaccion == $("#selFiltroTransaccion").val());
+    generarTabla(listaFiltrada);
   }
 }
 
 function generarTabla(list) {
 
+  calcularPromedio(list);
+  calcularPromedioPotencia(list);
+  calcularMaximo(list);
+  calcularMinimo(list);
   let lista = filtroMap(list);
   let tabla = document.getElementById("tablaAnuncios");  
   tabla.innerHTML = '';  
@@ -131,12 +147,10 @@ function generarTabla(list) {
     head.appendChild(celda);
     tabla.appendChild(head);
   }
-  calcularPromedio(lista);
-  calcularPromedioPotencia(lista);
-  calcularMaximo(lista);
-  calcularMinimo(lista);
 }
+//#endregion
 
+//#region Statistics
 function calcularPromedio(lista)
 {
   let promedio = lista.reduce((total, anuncio, index, array) => {
@@ -149,7 +163,7 @@ function calcularPromedio(lista)
     }
   },0);
 
-  document.getElementById('txtPromedio').value = promedio;
+  $('#txtPromedio').val() = promedio;
 }
 
 function calcularPromedioPotencia(lista)
@@ -157,92 +171,81 @@ function calcularPromedioPotencia(lista)
   let promedio = lista.reduce((total, anuncio, index, array) => {
     total += parseInt(anuncio.potencia);
 
-    if( index === array.length-1) { 
+    if( index === array.length-1){ 
       return total/array.length;
-    }else { 
+    }else{
       return total;
     }
   },0);
-
-  document.getElementById('txtPromedioPotencia').value = promedio;
+  $('#txtPromedioPotencia').val() = promedio;
 }
 
 function calcularMaximo(lista){
-
   let precioMaximo = listaAnuncios.reduce((acc,obj)=>{
     if(obj.precio>acc){acc=obj.precio;}return acc;
   },0);
-
-  document.getElementById('txtPrecioMaximo').value = precioMaximo;
+  $('#txtPrecioMaximo').val() = precioMaximo;
 }
 
 function calcularMinimo(lista){
-
   let precioMinimo = listaAnuncios.reduce((acc,obj)=>{
     if(obj.precio<acc){acc=obj.precio;}return acc;
   },0);
-
-  document.getElementById('txtPrecioMin').value = precioMinimo;
+  $('#txtPrecioMin').val() = precioMinimo;
 }
+//#endregion
 
 function cargarFormulario()
 {
   let anuncio = listaAnuncios.find(elemento => elemento.id == this.parentElement.firstChild.innerText);
-  console.log(anuncio);
   anuncioSeleccionado=anuncio;
 
-  document.getElementById("txtTitulo").value = anuncio.titulo;
-  document.getElementById("selTransaccion").value = anuncio.transaccion;
-  document.getElementById("txtDescipcion").value = anuncio.descripcion;
-  document.getElementById("txtPrecio").value = anuncio.precio;
-  document.getElementById("txtPuertas").value = anuncio.puertas;
-  document.getElementById("txtKms").value = anuncio.kms;
-  document.getElementById("txtPotencia").value = anuncio.potencia;
+  $("#txtTitulo").val() = anuncio.titulo;
+  $("#selTransaccion").val() = anuncio.transaccion;
+  $("#txtDescipcion").val() = anuncio.descripcion;
+  $("#txtPrecio").val() = anuncio.precio;
+  $("#txtPuertas").val() = anuncio.puertas;
+  $("#txtKms").val() = anuncio.kms;
+  $("#txtPotencia").val() = anuncio.potencia;
 
   $('#btnLimpiar').show();
   $('#btnBorrar').show();
-  
 }
 
 function filtroMap(lista){
-return lista.map(function(anuncio){
+  return lista.map(function(anuncio){
     let anuncioMapeado = new Object()
     anuncioMapeado.id = anuncio.id;
-    if(document.getElementById('checkTitulo').checked)
-    {
+
+    if(document.getElementById('checkTitulo').checked){
       anuncioMapeado.titulo = anuncio.titulo;
     }
-    if(document.getElementById('checkTransaccion').checked)
-    {
+    if(document.getElementById('checkTransaccion').checked){
       anuncioMapeado.transaccion = anuncio.transaccion;
     }
-    if(document.getElementById('checkDescripccion').checked)
-    {
+    if(document.getElementById('checkDescripccion').checked){
       anuncioMapeado.descripcion = anuncio.descripcion;
     }
-    if(document.getElementById('checkDescripccion').checked)
-    {
+    if(document.getElementById('checkDescripccion').checked){
       anuncioMapeado.descripcion = anuncio.descripcion;
     }
-    if(document.getElementById('checkPrecio').checked)
-    {
+    if(document.getElementById('checkPrecio').checked){
       anuncioMapeado.precio = anuncio.precio;
     }
-    if(document.getElementById('checkPuertas').checked)
-    {
+    if(document.getElementById('checkPuertas').checked){
       anuncioMapeado.puertas = anuncio.puertas;
     }
-    if(document.getElementById('checkKms').checked)
-    {
+    if(document.getElementById('checkKms').checked){
       anuncioMapeado.kms = anuncio.kms;
     }
-    if(document.getElementById('checkPotencia').checked)
-    {
+    if(document.getElementById('checkPotencia').checked){
       anuncioMapeado.potencia = anuncio.potencia;
     }
     return anuncioMapeado;
   });
 }
+
+
 
 //GET Anuncios
 function traerAnuncios(){
@@ -252,11 +255,10 @@ function traerAnuncios(){
 
 
   listaAnuncios = JSON.parse(localStorage.getItem('anuncios'));
-  console.log(listaAnuncios);
   generarTabla(listaAnuncios);
 }
 
-//ADD anuncio
+//ADD Anuncio
 function enviarAnuncio(anuncioAuto){
   //spinner
   $('body').toggleClass('loading');
@@ -272,6 +274,7 @@ function enviarAnuncio(anuncioAuto){
   localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
 }
 
+//UPDATE Anuncio
 function updateAnuncio(anuncioAuto){
   //spinner
   $('body').toggleClass('loading');
@@ -288,6 +291,7 @@ function updateAnuncio(anuncioAuto){
   localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
 }
 
+//DELETE Anuncio
 function deleteAnuncio()
 {
   //spinner
@@ -295,19 +299,7 @@ function deleteAnuncio()
   setTimeout(()=>{$('body').toggleClass('loading');},2000);
   
   let index = listaAnuncios.indexOf(anuncioSeleccionado);
-  if (index > -1) {
-    listaAnuncios.splice(index, 1);
-  }
+  listaAnuncios.splice(index,1);
 
   localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
-}
-
-function actualizarTabla()
-{
-  if (document.getElementById("selFiltroTransaccion").value == "na") {
-    generarTabla(listaAnuncios);
-  } else {
-    let listaFiltrada = listaAnuncios.filter((anuncio) => anuncio.transaccion == document.getElementById("selFiltroTransaccion").value);
-    generarTabla(listaFiltrada);
-  }
 }
