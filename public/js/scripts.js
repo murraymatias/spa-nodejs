@@ -7,7 +7,6 @@ let formControls = [$('#txtTitulo'),$('#selTransaccion'),$('#txtDescipcion'),$('
 let checkBoxes = [$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion'),$('#checkDescripccion'),$('#checkPrecio'),$('#checkPuertas'),$('#checkKms'),$('#checkPotencia')];
 //#endregion
 
-console.log(localStorage);
 
 //#region LocalStorage Init
 if(localStorage.getItem('anuncios')==null){
@@ -21,14 +20,10 @@ for(const box of checkBoxes){
 }
 //#endregion
 
-// console.log(localStorage);
-
 //#region Events handlers initialization
 $(document).ready(function () {
   traerAnuncios();
   for(const box of checkBoxes){
-    console.log(localStorage.getItem(box.val()));
-
     if(localStorage.getItem(box.val())=='true'){
       box.prop("checked",true);
     }else{
