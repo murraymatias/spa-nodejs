@@ -1,7 +1,48 @@
 import Anuncio_Auto from "./classes.js";
 
 //#region Elementos
+let data = [];
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myBarChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+          label: '# of Clicks',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+      }]
+  },
+  options: {
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+          }]
+      }
+  }
+});
+
 let listaAnuncios;
+let ckicksPublicaciones;
 let anuncioSeleccionado = '';
 let formControls = [$('#txtTitulo'),$('#selTransaccion'),$('#txtDescipcion'),$('#txtPrecio'),$('#txtPuertas'),$('#txtKms'),$('#txtPotencia')];
 let checkBoxes = [$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion'),$('#checkDescripccion'),$('#checkPrecio'),$('#checkPuertas'),$('#checkKms'),$('#checkPotencia')];
@@ -9,6 +50,10 @@ let checkBoxes = [$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion
 
 
 //#region LocalStorage Init
+if(localStorage.getItem('clicks')==null){
+  localStorage.setItem('clicks',JSON.stringify(new Array()));
+}
+
 if(localStorage.getItem('anuncios')==null){
   localStorage.setItem('anuncios',JSON.stringify(new Array()));
 }
@@ -22,6 +67,7 @@ for(const box of checkBoxes){
 
 //#region Events handlers initialization
 $(document).ready(function () {
+  
   traerAnuncios();
   for(const box of checkBoxes){
     if(localStorage.getItem(box.val())=='true'){
@@ -30,8 +76,8 @@ $(document).ready(function () {
       box.prop("checked",false);
     }
   }
+  contarClicks();
 });
-
 
 //Save button handler
 $("#btnGuardar").click(function (e) {
@@ -68,6 +114,7 @@ $("#btnBorrar").click(function (e) {
   $('#btnBorrar').hide();
 });
 
+//Check boxes hadlers
 for (const box of checkBoxes){
   box.change(function () {
     actualizarTabla();
@@ -115,6 +162,7 @@ function guardarChecks()
     }
   }
 }
+
 //#region Table operations
 function actualizarTabla()
 {
@@ -222,6 +270,10 @@ function cargarFormulario()
 {
   let anuncio = listaAnuncios.find(elemento => elemento.id == this.parentElement.firstChild.innerText);
   anuncioSeleccionado=anuncio;
+  ckicksPublicaciones.push(anuncio.id);
+  localStorage.setItem('clicks',JSON.stringify(ckicksPublicaciones));
+  contarClicks();
+
 
   $("#txtTitulo").val(anuncio.titulo);
   $("#selTransaccion").val(anuncio.transaccion);
@@ -268,6 +320,27 @@ function filtroMap(lista){
   });
 }
 
+function contarClicks(){
+  let clickPorPublicacion = new Array();
+  let publicacionesDiferentes = ckicksPublicaciones.unique();
+  for(const elemento of publicacionesDiferentes){
+    var count = 0;
+    for(var i = 0; i < ckicksPublicaciones.length; ++i){
+      if(ckicksPublicaciones[i] == elemento)
+        count++;
+      }
+      clickPorPublicacion.push(count);
+  }
+  console.log(publicacionesDiferentes);
+  console.log(clickPorPublicacion);
+  myBarChart.data.labels = publicacionesDiferentes;
+  myBarChart.data.datasets[0].data = clickPorPublicacion;
+  myBarChart.update()
+  // console.log(myBarChart);
+  // addData(myBarChart,publicacionesDiferentes,clickPorPublicacion);
+}
+
+
 //GET Anuncios
 function traerAnuncios(){
   //spinner
@@ -276,6 +349,8 @@ function traerAnuncios(){
 
 
   listaAnuncios = JSON.parse(localStorage.getItem('anuncios'));
+  ckicksPublicaciones = JSON.parse(localStorage.getItem('clicks'));
+  console.log(ckicksPublicaciones);
   generarTabla(listaAnuncios);
 }
 
@@ -323,4 +398,30 @@ function deleteAnuncio()
   listaAnuncios.splice(index,1);
 
   localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
+}
+
+
+Array.prototype.contains = function(v) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] === v) return true;
+  }
+  return false;
+};
+
+Array.prototype.unique = function() {
+  var arr = [];
+  for (var i = 0; i < this.length; i++) {
+    if (!arr.contains(this[i])) {
+      arr.push(this[i]);
+    }
+  }
+  return arr;
+}
+
+function addData(chart, label, data) {
+  chart.data.labels.push(label);
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(data);
+  });
+  chart.update();
 }
