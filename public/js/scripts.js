@@ -4,24 +4,38 @@ import Anuncio_Auto from "./classes.js";
 let listaAnuncios;
 let anuncioSeleccionado = '';
 let formControls = [$('#txtTitulo'),$('#selTransaccion'),$('#txtDescipcion'),$('#txtPrecio'),$('#txtPuertas'),$('#txtKms'),$('#txtPotencia')];
-let checkBoxes = [$('#selFiltroTransaccion'),$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion'),$('#checkDescripccion'),$('#checkPrecio'),$('#checkPuertas'),$('#checkKms'),$('#checkPotencia')];
+let checkBoxes = [$('#checkTitulo'),$('#checkTransaccion'),$('#checkDescripccion'),$('#checkDescripccion'),$('#checkPrecio'),$('#checkPuertas'),$('#checkKms'),$('#checkPotencia')];
 //#endregion
 
-
+console.log(localStorage);
 
 //#region LocalStorage Init
 if(localStorage.getItem('anuncios')==null){
   localStorage.setItem('anuncios',JSON.stringify(new Array()));
 }
 
-
+for(const box of checkBoxes){
+  if(localStorage.getItem(box.val())==null){
+    localStorage.setItem(box.val(),'true');
+  }
+}
 //#endregion
 
-
+// console.log(localStorage);
 
 //#region Events handlers initialization
+$(document).ready(function () {
+  traerAnuncios();
+  for(const box of checkBoxes){
+    console.log(localStorage.getItem(box.val()));
 
-$(document).ready(traerAnuncios);
+    if(localStorage.getItem(box.val())=='true'){
+      box.prop("checked",true);
+    }else{
+      box.prop("checked",false);
+    }
+  }
+});
 
 
 //Save button handler
@@ -60,8 +74,13 @@ $("#btnBorrar").click(function (e) {
 });
 
 for (const box of checkBoxes){
-  box.change(actualizarTabla);
+  box.change(function () {
+    actualizarTabla();
+    guardarChecks();
+  });
 }
+
+$("#selFiltroTransaccion").change(actualizarTabla);
 //#endregion
 
 
@@ -91,7 +110,16 @@ function guardarAnuncio() {
   }
 }
 
-
+function guardarChecks()
+{
+  for (const box of checkBoxes){
+    if(box.prop('checked')){
+      localStorage.setItem(box.val(),'true');
+    }else{
+      localStorage.setItem(box.val(),'false');
+    }
+  }
+}
 //#region Table operations
 function actualizarTabla()
 {
