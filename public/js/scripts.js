@@ -1,4 +1,5 @@
 import Anuncio_Auto from "./classes.js";
+import DataAccess from "./DataAccess.js";
 
 //#region Elementos
 let data = [];
@@ -348,7 +349,7 @@ function traerAnuncios(){
   setTimeout(()=>{$('body').toggleClass('loading');},2000);
 
 
-  listaAnuncios = JSON.parse(localStorage.getItem('anuncios'));
+  listaAnuncios = JSON.parse(DataAccess.traer());
   ckicksPublicaciones = JSON.parse(localStorage.getItem('clicks'));
   console.log(ckicksPublicaciones);
   generarTabla(listaAnuncios);
@@ -367,7 +368,7 @@ function enviarAnuncio(anuncioAuto){
 
   anuncioAuto.id=ultimoId+1;
   listaAnuncios.push(anuncioAuto);
-  localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
+  DataAccess.insertsar(listaAnuncios);
 }
 
 //UPDATE Anuncio
@@ -384,7 +385,7 @@ function updateAnuncio(anuncioAuto){
   anuncioSeleccionado.kms = anuncioAuto.kms;
   anuncioSeleccionado.potencia = anuncioAuto.potencia;
 
-  localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
+  DataAccess.modificar(listaAnuncios);
 }
 
 //DELETE Anuncio
@@ -397,7 +398,7 @@ function deleteAnuncio()
   let index = listaAnuncios.indexOf(anuncioSeleccionado);
   listaAnuncios.splice(index,1);
 
-  localStorage.setItem('anuncios',JSON.stringify(listaAnuncios));
+  DataAccess.borrar(listaAnuncios);
 }
 
 
